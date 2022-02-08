@@ -62,6 +62,7 @@ public class StudentDetailController {
         }
         Page<StudentDetail> studentDetailPage = studentDetailMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
 
+
         if (studentDetailPage != null) {
             return ResultUtils.success(studentDetailPage);
         } else return ResultUtils.Err(-1, "查询结果为空");
