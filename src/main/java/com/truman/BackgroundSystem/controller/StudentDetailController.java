@@ -70,10 +70,8 @@ public class StudentDetailController {
 
     @DeleteMapping("/delSingleStudent")
     public Result<?> delSingleStudent(String studentId) {
-        System.out.println(studentId);
         try {
-            Integer id = Integer.parseInt(studentId);
-            studentDetailMapper.deleteById(id);
+            studentDetailMapper.deleteById(studentId);
         } catch (Exception e) {
             return ResultUtils.Err(-1, "删除失败");
         }
