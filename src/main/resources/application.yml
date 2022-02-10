@@ -4,8 +4,19 @@ spring:
     url: jdbc:mysql://192.168.126.129:3306/graduation
     username: root
     password: Fyh.mysql20000718
+  mail:
+    username: TrumanVon@126.com
+    host: smtp.126.com
+    password: EASSCRMQKCQWZTJW
+    protocol: smtp
+    port: 25
+  redis:
+    host: 192.168.126.129
+    password: Fyh.redis20000718
+    database: 0
 server:
   port: 8081
-
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+logging:
+  config: classpath:log/logback.xml

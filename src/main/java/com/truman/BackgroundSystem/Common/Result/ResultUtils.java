@@ -14,6 +14,8 @@ public class ResultUtils {
         return success(null);
     }
 
+
+
     public static Result Err(Integer code, String msg) {
         Result result = new Result();
         result.setCode(code);

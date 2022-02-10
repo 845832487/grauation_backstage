@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022-02-06
  */
 @RestController
-@RequestMapping("/StudentDetail")
+@RequestMapping("/studentDetail")
 public class StudentDetailController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class StudentDetailController {
         try {
             studentDetailMapper.insert(student);
         } catch (Exception e) {
-            return ResultUtils.Err(-1, "插入失败");
+            return ResultUtils.Err(-1, "请填写完整信息");
         }
         return ResultUtils.success(student);
     }
