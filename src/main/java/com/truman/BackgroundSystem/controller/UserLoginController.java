@@ -16,7 +16,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -64,6 +63,7 @@ public class UserLoginController {
                     .eq(UserLogin::getId, user.getId())
                     .eq(UserLogin::getPassword, user.getPassword()));
             if (res != null) {
+                redistemplate.opsForValue().set(user.getId() + "_login", "1", 7, TimeUnit.DAYS);
                 return ResultUtils.success(res);
             } else return ResultUtils.Err(-1, "账号或密码错误");
         } catch (Exception e) {
@@ -72,10 +72,25 @@ public class UserLoginController {
     }
 
     /*
+     * 前端用户第一次渲染非登录界面时需要后端判断是否有登陆权限
+     * */
+    @GetMapping("/checkAuth")
+    public Result<?> checkAuth(@RequestParam String userId) {
+        try {
+            if (Boolean.TRUE.equals(redistemplate.hasKey(userId+"_login"))) {
+                return ResultUtils.success();
+            } else return ResultUtils.Err(-1, "登录状态过期，请重新登录");
+        } catch (Exception e) {
+            return ResultUtils.Err(-1, "系统checkAuth错误");
+        }
+    }
+
+    /*
      * 找回密码发送邮件
      * */
     @GetMapping("/getForgetPasswordCode")
     public Result<?> getForgetPasswordCode(@RequestParam String id) {
+
         try {
             UserRole userRole = userRoleMapper.selectById(id);
             String emailTo;
@@ -133,6 +148,5 @@ public class UserLoginController {
         } catch (Exception e) {
             return ResultUtils.Err(-1, "系统错误，修改失败");
         }
-
     }
 }

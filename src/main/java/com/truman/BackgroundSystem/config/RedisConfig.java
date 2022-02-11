@@ -14,12 +14,9 @@ public class RedisConfig {
     @Bean
     @SuppressWarnings("all")
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
-
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(factory);
-
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
-
         //String序列化
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         //key采用string的序列化方式
@@ -31,10 +28,7 @@ public class RedisConfig {
         //hash的value也采用jackson
         template.setHashValueSerializer(jackson2JsonRedisSerializer);
         template.afterPropertiesSet();
-
         return template;
-
-
     }
 }
 
