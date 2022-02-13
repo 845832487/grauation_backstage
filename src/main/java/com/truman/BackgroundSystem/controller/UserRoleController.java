@@ -3,12 +3,9 @@ package com.truman.BackgroundSystem.controller;
 
 import com.truman.BackgroundSystem.Common.Result.Result;
 import com.truman.BackgroundSystem.Common.Result.ResultUtils;
-import com.truman.BackgroundSystem.entity.Email;
-import com.truman.BackgroundSystem.entity.StudentDetail;
-import com.truman.BackgroundSystem.entity.UserRole;
-import com.truman.BackgroundSystem.entity.WorkerDetail;
+import com.truman.BackgroundSystem.entity.*;
 import com.truman.BackgroundSystem.mapper.StudentDetailMapper;
-import com.truman.BackgroundSystem.mapper.UserRoleMapper;
+import com.truman.BackgroundSystem.mapper.UserLoginMapper;
 import com.truman.BackgroundSystem.mapper.WorkerDetailMapper;
 import com.truman.BackgroundSystem.service.impl.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +27,10 @@ import java.util.Random;
 @RestController
 @RequestMapping("/userRole")
 public class UserRoleController {
+
+
     @Autowired
-    UserRoleMapper userRoleMapper;
+    UserLoginMapper userLoginMapper;
 
 
     /*
@@ -40,9 +39,9 @@ public class UserRoleController {
     @GetMapping("/getInfo")
     public Result<?> getUserInfo(@RequestParam String id) {
         try {
-            UserRole userRole = userRoleMapper.selectById(id);
-            if (userRole != null) {
-                return ResultUtils.success(userRole);
+            UserLogin userLogin = userLoginMapper.selectById(id);
+            if (userLogin != null) {
+                return ResultUtils.success(userLogin);
             } else return ResultUtils.Err(-1, "未找到用户权限信息");
         } catch (Exception e) {
             return ResultUtils.Err(-1, e.getMessage());

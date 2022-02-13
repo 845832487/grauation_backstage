@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -18,6 +20,8 @@ import lombok.Data;
 @TableName("user_login")
 @ApiModel(value = "UserLogin对象", description = "")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserLogin implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,5 +31,7 @@ public class UserLogin implements Serializable {
 
 
     private String password;
+
+    private String role;
 
 }

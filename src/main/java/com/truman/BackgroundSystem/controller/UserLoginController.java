@@ -7,7 +7,6 @@ import com.truman.BackgroundSystem.Common.Result.ResultUtils;
 import com.truman.BackgroundSystem.entity.*;
 import com.truman.BackgroundSystem.mapper.StudentDetailMapper;
 import com.truman.BackgroundSystem.mapper.UserLoginMapper;
-import com.truman.BackgroundSystem.mapper.UserRoleMapper;
 import com.truman.BackgroundSystem.mapper.WorkerDetailMapper;
 import com.truman.BackgroundSystem.service.impl.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +33,6 @@ public class UserLoginController {
 
     @Autowired
     UserLoginMapper userLoginMapper;
-
-    @Autowired
-    UserRoleMapper userRoleMapper;
 
     @Autowired
     StudentDetailMapper studentDetailMapper;
@@ -92,14 +88,14 @@ public class UserLoginController {
     public Result<?> getForgetPasswordCode(@RequestParam String id) {
 
         try {
-            UserRole userRole = userRoleMapper.selectById(id);
+            UserLogin userLogin = userLoginMapper.selectById(id);
             String emailTo;
             int code = new Random().nextInt(9000) + 1000;
             String content = "您找回密码的验证码为[" + code + "]密码将于10分钟后过期";
             String title = "密码找回验证码";
-            if (userRole == null) {
+            if (userLogin == null) {
                 return ResultUtils.Err(-1, "学号不存在");
-            } else if (userRole.getRole().equals("student")) {
+            } else if (userLogin.getRole().equals("student")) {
                 StudentDetail student = studentDetailMapper.selectById(id);
                 emailTo = student.getEmail();
             } else {
