@@ -4,6 +4,7 @@ import com.truman.BackgroundSystem.entity.ApplicationCheckout;
 import com.truman.BackgroundSystem.mapper.ApplicationCheckoutMapper;
 import com.truman.BackgroundSystem.service.IApplicationCheckoutService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +17,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ApplicationCheckoutServiceImpl extends ServiceImpl<ApplicationCheckoutMapper, ApplicationCheckout> implements IApplicationCheckoutService {
+    @Autowired
+    ApplicationCheckoutMapper applicationCheckoutMapper;
 
+
+    @Override
+    public ApplicationCheckout selNotFinishedTaskListByApplicantId(String id) {
+        return applicationCheckoutMapper.getAllNotFinishedCheckOutByApplicantId(id);
+    }
 }

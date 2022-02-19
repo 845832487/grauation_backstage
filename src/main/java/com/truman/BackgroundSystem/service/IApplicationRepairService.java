@@ -2,6 +2,9 @@ package com.truman.BackgroundSystem.service;
 
 import com.truman.BackgroundSystem.entity.ApplicationRepair;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.truman.BackgroundSystem.entity.WorkerDetail;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IApplicationRepairService extends IService<ApplicationRepair> {
 
+    List<ApplicationRepair> selNotFinishedTaskListByApplicantID(String id);
+
+    List<WorkerDetail> getRepairerNameId();
 }

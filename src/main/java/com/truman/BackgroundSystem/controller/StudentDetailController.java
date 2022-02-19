@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.truman.BackgroundSystem.Common.Result.Result;
@@ -40,7 +39,6 @@ public class StudentDetailController {
     UserLoginMapper userLoginMapper;
 
 
-
     @DeleteMapping("/delMultiStudents")
     public Result<?> delMultiStudents(@RequestBody String studentDetails) {
         try {
@@ -61,7 +59,7 @@ public class StudentDetailController {
     public Result<?> saveOneStudent(@RequestBody StudentDetail student) {
         try {
             studentDetailMapper.insert(student);
-            userLoginMapper.insert(new UserLogin(student.getId(), null,null));
+            userLoginMapper.insert(new UserLogin(student.getId(), null, "student"));
         } catch (Exception e) {
             return ResultUtils.Err(-1, "请填写完整信息");
         }
@@ -73,7 +71,7 @@ public class StudentDetailController {
         try {
             studentDetails.forEach(studentDetail -> {
                 studentDetailMapper.insert(studentDetail);
-                userLoginMapper.insert(new UserLogin(studentDetail.getId(), null,null));
+                userLoginMapper.insert(new UserLogin(studentDetail.getId(), null, "student"));
             });
             return ResultUtils.success("批量添加成功");
         } catch (Exception e) {
@@ -84,7 +82,6 @@ public class StudentDetailController {
             return ResultUtils.Err(-1, "包含学号重复，添加失败");
         }
     }
-
 
 
     @PutMapping("/updStudent")
@@ -125,5 +122,24 @@ public class StudentDetailController {
             return ResultUtils.Err(-1, "删除失败");
         }
         return ResultUtils.success(studentId);
+    }
+
+    @GetMapping("/getStudentDetailById")
+    public Result<?> getStudentDetailById(String studentId) {
+        try {
+            return ResultUtils.success(studentDetailMapper.selectById(studentId));
+        } catch (Exception e) {
+            return ResultUtils.Err(-1, e.getMessage());
+        }
+    }
+
+    @PostMapping("/updStudentPersonalInfo")
+    public Result<?> updStudentPersonalInfo(@RequestBody StudentDetail studentDetail) {
+        try {
+            studentDetailMapper.updateById(studentDetail);
+            return ResultUtils.success("修改成功");
+        } catch (Exception e) {
+            return ResultUtils.Err(-1, e.getMessage());
+        }
     }
 }

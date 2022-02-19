@@ -2,4 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.truman.BackgroundSystem.mapper.ApplicationAnnounceMapper">
 
+    <select id="selNumsOfNotFinishAppByAnnounceId" resultType="java.lang.Integer">
+        select count(application_id)
+        from application_announce
+        where announce_id = #{id}
+          and is_finish = 0
+    </select>
+    <select id="selNotFinishTaskByAnnounceId" resultType="com.truman.BackgroundSystem.entity.ApplicationAnnounce">
+        select *
+        from application_announce
+        where announce_id = #{id}
+        and is_finish = 0
+    </select>
+    <select id="selNotFinishTaskByApplicantId" resultType="com.truman.BackgroundSystem.entity.ApplicationAnnounce">
+        select *
+        from application_announce
+        where applicant_id = #{id}
+          and is_finish = 0
+    </select>
 </mapper>

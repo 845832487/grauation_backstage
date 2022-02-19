@@ -2,4 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.truman.BackgroundSystem.mapper.ApplicationTermStartCheckinMapper">
 
+    <select id="getAllNotFinishedTermStartCheckinByApplicantId"
+            resultType="com.truman.BackgroundSystem.entity.ApplicationTermStartCheckin">
+        select *
+        from application_term_start_checkin
+        where applicant_id = #{id}
+          and finish_time is null
+    </select>
+    <select id="getAllNotFinishedTermStartCheckinByApprovalId"
+            resultType="com.truman.BackgroundSystem.entity.ApplicationTermStartCheckin">
+        select *
+        from application_term_start_checkin
+        where approval_id = #{id}
+          and finish_time is null
+    </select>
 </mapper>

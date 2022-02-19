@@ -62,7 +62,7 @@ public class WorkerDetailController {
     public Result<?> saveOneStudent(@RequestBody WorkerDetail worker) {
         try {
             workerDetailMapper.insert(worker);
-            userLoginMapper.insert(new UserLogin(worker.getId(), null, null));
+            userLoginMapper.insert(new UserLogin(worker.getId(), null, "worker"));
         } catch (Exception e) {
             return ResultUtils.Err(-1, "请填写完整信息");
         }
@@ -74,7 +74,7 @@ public class WorkerDetailController {
         try {
             workerDetails.forEach(workerDetail -> {
                 workerDetailMapper.insert(workerDetail);
-                userLoginMapper.insert(new UserLogin(workerDetail.getId(), null, null));
+                userLoginMapper.insert(new UserLogin(workerDetail.getId(), null, "worker"));
             });
             return ResultUtils.success("批量添加成功");
         } catch (Exception e) {
@@ -125,6 +125,25 @@ public class WorkerDetailController {
             return ResultUtils.Err(-1, "删除失败");
         }
         return ResultUtils.success(workerId);
+    }
+
+    @GetMapping("/getWorkerDetailById")
+    public Result<?> getWorkerDetailById(String workerId) {
+        try {
+            return ResultUtils.success(workerDetailMapper.selectById(workerId));
+        } catch (Exception e) {
+            return ResultUtils.Err(-1, e.getMessage());
+        }
+    }
+
+    @PostMapping("/updWorkerPersonalInfo")
+    public Result<?> updWorkerPersonalInfo(@RequestBody WorkerDetail workerDetail) {
+        try {
+            workerDetailMapper.updateById(workerDetail);
+            return ResultUtils.success("修改成功");
+        } catch (Exception e) {
+            return ResultUtils.Err(-1, e.getMessage());
+        }
     }
 }
 

@@ -14,6 +14,9 @@ spring:
     host: 192.168.126.129
     password: Fyh.redis20000718
     database: 0
+  mvc:
+    static-path-pattern: /**
+
 server:
   port: 8081
 mybatis:

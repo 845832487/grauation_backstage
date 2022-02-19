@@ -1,10 +1,18 @@
 package com.truman.BackgroundSystem.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 /**
  * <p>
@@ -16,6 +24,10 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @TableName("application_repair")
 @ApiModel(value = "ApplicationRepair对象", description = "")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class ApplicationRepair implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,68 +44,8 @@ public class ApplicationRepair implements Serializable {
 
     private LocalDateTime createTime;
 
+    @TableField(updateStrategy = FieldStrategy.IGNORED,insertStrategy = FieldStrategy.IGNORED)
     private LocalDateTime finishTime;
 
-    public String getApplicationId() {
-        return applicationId;
-    }
 
-    public void setApplicationId(String applicationId) {
-        this.applicationId = applicationId;
-    }
-    public String getApplicantId() {
-        return applicantId;
-    }
-
-    public void setApplicantId(String applicantId) {
-        this.applicantId = applicantId;
-    }
-    public String getApprovalId() {
-        return approvalId;
-    }
-
-    public void setApprovalId(String approvalId) {
-        this.approvalId = approvalId;
-    }
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-    public String getFileAddr() {
-        return fileAddr;
-    }
-
-    public void setFileAddr(String fileAddr) {
-        this.fileAddr = fileAddr;
-    }
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-    public LocalDateTime getFinishTime() {
-        return finishTime;
-    }
-
-    public void setFinishTime(LocalDateTime finishTime) {
-        this.finishTime = finishTime;
-    }
-
-    @Override
-    public String toString() {
-        return "ApplicationRepair{" +
-            "applicationId=" + applicationId +
-            ", applicantId=" + applicantId +
-            ", approvalId=" + approvalId +
-            ", message=" + message +
-            ", fileAddr=" + fileAddr +
-            ", createTime=" + createTime +
-            ", finishTime=" + finishTime +
-        "}";
-    }
 }

@@ -2,4 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.truman.BackgroundSystem.mapper.WorkerDetailMapper">
 
+    <select id="selAllDormKeeperIdName" resultType="com.truman.BackgroundSystem.entity.WorkerDetail">
+        select id, name
+        from worker_detail
+        where job like '%宿管%'
+    </select>
+    <select id="selAllRepairerIdName" resultType="com.truman.BackgroundSystem.entity.WorkerDetail">
+        select id, name
+        from worker_detail
+        where job like '%水电修理工%'
+    </select>
 </mapper>

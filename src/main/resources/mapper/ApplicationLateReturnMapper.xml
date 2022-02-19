@@ -2,4 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.truman.BackgroundSystem.mapper.ApplicationLateReturnMapper">
 
+    <select id="getAllNotFinishedLateReturnByApprovalId"
+            resultType="com.truman.BackgroundSystem.entity.ApplicationLateReturn">
+        select *
+        from application_late_return
+        where approval_id = #{id}
+          and finish_time is null
+    </select>
+    <select id="getAllNotFinishedLateReturnByApplicantId"
+            resultType="com.truman.BackgroundSystem.entity.ApplicationLateReturn">
+        select *
+        from application_late_return
+        where applicant_id = #{id}
+          and finish_time is null
+    </select>
 </mapper>

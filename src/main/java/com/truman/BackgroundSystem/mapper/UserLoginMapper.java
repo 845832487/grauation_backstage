@@ -14,5 +14,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserLoginMapper extends BaseMapper<UserLogin> {
-
+    boolean updPasswordById(String id, String password);
 }

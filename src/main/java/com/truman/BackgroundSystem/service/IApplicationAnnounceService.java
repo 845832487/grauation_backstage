@@ -2,6 +2,9 @@ package com.truman.BackgroundSystem.service;
 
 import com.truman.BackgroundSystem.entity.ApplicationAnnounce;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.truman.BackgroundSystem.entity.SubmittedTask;
+
+import java.util.ArrayList;
 
 /**
  * <p>
@@ -11,6 +14,15 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author 冯有恒
  * @since 2022-02-06
  */
+
 public interface IApplicationAnnounceService extends IService<ApplicationAnnounce> {
+
+    Integer selNotFinishTaskNum(String id);
+
+
+    ArrayList<SubmittedTask> selSubmittedTaskList(String id);
+
+
+
 
 }

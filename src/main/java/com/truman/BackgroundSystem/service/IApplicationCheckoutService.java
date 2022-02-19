@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-02-06
  */
 public interface IApplicationCheckoutService extends IService<ApplicationCheckout> {
-
+    ApplicationCheckout selNotFinishedTaskListByApplicantId(String id);
 }

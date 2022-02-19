@@ -2,6 +2,9 @@ package com.truman.BackgroundSystem.service;
 
 import com.truman.BackgroundSystem.entity.ApplicationLateReturn;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.truman.BackgroundSystem.entity.WorkerDetail;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-02-06
  */
 public interface IApplicationLateReturnService extends IService<ApplicationLateReturn> {
+
+    List<WorkerDetail> getDormKeeperNameId();
+
+    List<ApplicationLateReturn> selNotFinishedTaskListByApprovalId(String id);
+
 
 }

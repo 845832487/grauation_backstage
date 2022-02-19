@@ -4,7 +4,10 @@ import com.truman.BackgroundSystem.entity.ApplicationTermFinishCheckout;
 import com.truman.BackgroundSystem.mapper.ApplicationTermFinishCheckoutMapper;
 import com.truman.BackgroundSystem.service.IApplicationTermFinishCheckoutService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,5 +19,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ApplicationTermFinishCheckoutServiceImpl extends ServiceImpl<ApplicationTermFinishCheckoutMapper, ApplicationTermFinishCheckout> implements IApplicationTermFinishCheckoutService {
+    @Autowired
+    ApplicationTermFinishCheckoutMapper applicationTermFinishCheckoutMapper;
 
+    @Override
+    public List<ApplicationTermFinishCheckout> selNotFinishedTaskListByApplicantId(String id) {
+        return applicationTermFinishCheckoutMapper.getAllNotTermFinishCheckoutByApplicantId(id);
+    }
 }

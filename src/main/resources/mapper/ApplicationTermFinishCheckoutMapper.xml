@@ -2,4 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.truman.BackgroundSystem.mapper.ApplicationTermFinishCheckoutMapper">
 
+    <select id="getAllNotTermFinishCheckoutByApplicantId"
+            resultType="com.truman.BackgroundSystem.entity.ApplicationTermFinishCheckout">
+        select *
+        from application_term_finish_checkout
+        where applicant_id = #{id}
+          and finish_time is null
+    </select>
+    <select id="getAllNotTermFinishCheckoutByApprovalId"
+            resultType="com.truman.BackgroundSystem.entity.ApplicationTermFinishCheckout">
+        select *
+        from application_term_finish_checkout
+        where approval_id = #{id}
+          and finish_time is null
+    </select>
 </mapper>

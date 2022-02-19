@@ -73,7 +73,7 @@ public class UserLoginController {
     @GetMapping("/checkAuth")
     public Result<?> checkAuth(@RequestParam String userId) {
         try {
-            if (Boolean.TRUE.equals(redistemplate.hasKey(userId+"_login"))) {
+            if (Boolean.TRUE.equals(redistemplate.hasKey(userId + "_login"))) {
                 return ResultUtils.success();
             } else return ResultUtils.Err(-1, "登录状态过期，请重新登录");
         } catch (Exception e) {
@@ -143,6 +143,21 @@ public class UserLoginController {
             return ResultUtils.success("密码修改成功");
         } catch (Exception e) {
             return ResultUtils.Err(-1, "系统错误，修改失败");
+        }
+    }
+
+    @GetMapping("/getPasswordById")
+    public Result<?> getPasswordById(String userId,String oldPassword,String newPassword) {
+        try {
+
+            if (oldPassword.equals(userLoginMapper.selectById(userId).getPassword())) {
+                if (userLoginMapper.updPasswordById(userId, newPassword)) {
+                    return ResultUtils.success("修改成功");
+                } else return ResultUtils.Err(-1, "系统错误修改失败");
+            } else return ResultUtils.Err(-1, "旧密码输入错误");
+
+        } catch (Exception e) {
+            return ResultUtils.Err(-1, e.getMessage());
         }
     }
 }
