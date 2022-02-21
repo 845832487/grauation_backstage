@@ -18,6 +18,8 @@ public interface IApplicationLateReturnService extends IService<ApplicationLateR
 
     List<WorkerDetail> getDormKeeperNameId();
 
+    List<WorkerDetail> getDormKeeperNameIdByStudentId(String id);
+
     List<ApplicationLateReturn> selNotFinishedTaskListByApprovalId(String id);
 
 

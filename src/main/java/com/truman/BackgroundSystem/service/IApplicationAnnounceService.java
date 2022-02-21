@@ -2,6 +2,8 @@ package com.truman.BackgroundSystem.service;
 
 import com.truman.BackgroundSystem.entity.ApplicationAnnounce;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.truman.BackgroundSystem.entity.ApprovedTask;
+import com.truman.BackgroundSystem.entity.NotApprovedTask;
 import com.truman.BackgroundSystem.entity.SubmittedTask;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public interface IApplicationAnnounceService extends IService<ApplicationAnnounc
     ArrayList<SubmittedTask> selSubmittedTaskList(String id);
 
 
+    ArrayList<ApprovedTask> selApprovedTaskList(String id);
 
-
+    ArrayList<NotApprovedTask> selNotApprovedTaskList(String id);
 }

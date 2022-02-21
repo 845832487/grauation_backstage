@@ -12,12 +12,19 @@
         select *
         from application_announce
         where announce_id = #{id}
-        and is_finish = 0
+        and is_finish is false
     </select>
     <select id="selNotFinishTaskByApplicantId" resultType="com.truman.BackgroundSystem.entity.ApplicationAnnounce">
         select *
         from application_announce
         where applicant_id = #{id}
-          and is_finish = 0
+          and is_finish is false
+    </select>
+    <select id="selApprovedTaskList" resultType="com.truman.BackgroundSystem.entity.ApplicationAnnounce">
+        select *
+        from application_announce
+        where is_finish is true
+          and (applicant_id = #{id}
+          or announce_id = #{id})
     </select>
 </mapper>

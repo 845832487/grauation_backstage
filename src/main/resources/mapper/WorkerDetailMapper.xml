@@ -12,4 +12,14 @@
         from worker_detail
         where job like '%水电修理工%'
     </select>
+    <select id="selDormKeeperIdNameByStudentId" resultType="com.truman.BackgroundSystem.entity.WorkerDetail">
+        select id, name
+        from worker_detail
+        where building_in_charge
+                  = (select building_num
+                  from student_detail
+                  where student_detail.id = #{id})
+
+
+    </select>
 </mapper>

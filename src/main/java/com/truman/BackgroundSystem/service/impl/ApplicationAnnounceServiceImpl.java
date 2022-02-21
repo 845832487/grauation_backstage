@@ -1,17 +1,15 @@
 package com.truman.BackgroundSystem.service.impl;
 
-import com.truman.BackgroundSystem.entity.ApplicationAnnounce;
-import com.truman.BackgroundSystem.entity.ApplicationCheckout;
-import com.truman.BackgroundSystem.entity.SubmittedTask;
+import com.truman.BackgroundSystem.entity.*;
 import com.truman.BackgroundSystem.mapper.ApplicationAnnounceMapper;
 import com.truman.BackgroundSystem.mapper.ApplicationCheckoutMapper;
+import com.truman.BackgroundSystem.mapper.StudentDetailMapper;
+import com.truman.BackgroundSystem.mapper.WorkerDetailMapper;
 import com.truman.BackgroundSystem.service.IApplicationAnnounceService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +30,12 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
     @Autowired
     ApplicationCheckoutMapper checkoutMapper;
 
+    @Autowired
+    StudentDetailMapper studentDetailMapper;
+
+    @Autowired
+    WorkerDetailMapper workerDetailMapper;
+
 
     @Override
     public Integer selNotFinishTaskNum(String id) {
@@ -43,17 +47,17 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
     public ArrayList<SubmittedTask> selSubmittedTaskList(String id) {
         List<ApplicationAnnounce> announces = announceMapper.selNotFinishTaskByApplicantId(id);
         ArrayList<SubmittedTask> tasks = new ArrayList<>();
-        announces.forEach(announce->{
+        announces.forEach(announce -> {
             switch (announce.getApplicationId().substring(0, 4)) {
                 case "wgsq":
                     //晚归申请
-                    tasks.add(new SubmittedTask(
+                    tasks.add (new SubmittedTask(
                             announce.getApplicationId(),
                             "晚归申请",
                             "等待宿管审批",
                             announce.getCreateDate()));
                     break;
-                    //水电维修
+                //水电维修
                 case "sdwx":
                     tasks.add(new SubmittedTask(
                             announce.getApplicationId(),
@@ -62,7 +66,7 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
                             announce.getCreateDate()
                     ));
                     break;
-                    //开学入住
+                //开学入住
                 case "kxrz":
                     tasks.add(new SubmittedTask(
                             announce.getApplicationId(),
@@ -71,7 +75,7 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
                             announce.getCreateDate()
                     ));
                     break;
-                    //期末离宿
+                //期末离宿
                 case "qmls":
                     tasks.add(new SubmittedTask(
                             announce.getApplicationId(),
@@ -80,10 +84,12 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
                             announce.getCreateDate()
                     ));
                     break;
-                    //退宿
+                //退宿
                 case "tssq":
+                    System.out.println(announce);
                     SubmittedTask task = new SubmittedTask(announce.getApplicationId(), "退宿申请", null, announce.getCreateDate());
-                            ApplicationCheckout checkout = checkoutMapper.getAllNotFinishedCheckOutByApplicantId(id);
+                    ApplicationCheckout checkout = checkoutMapper.getCheckoutById(announce.getApplicationId());
+                    System.out.println(checkout);
                     if (checkout.getCounselorId() == null) {
                         task.setCondition("等待宿管审批");
                     } else if (checkout.getDormmanagerId() == null) {
@@ -98,5 +104,128 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
         return tasks;
     }
 
+
+    @Override
+    public ArrayList<ApprovedTask> selApprovedTaskList(String id) {
+        List<ApplicationAnnounce> announces = announceMapper.selApprovedTaskList(id);
+        ArrayList<ApprovedTask> tasks = new ArrayList<>();
+        announces.forEach(announce -> {
+            switch (announce.getApplicationId().substring(0, 4)){
+                case "wgsq":
+                    //晚归申请
+                    tasks.add(new ApprovedTask(
+                            announce.getApplicationId(),
+                            "晚归申请",
+                            announce.getApplicantId(),
+                            announce.getAnnounceId(),
+                            announce.getCreateDate()));
+                    break;
+                //水电维修
+                case "sdwx":
+                    tasks.add(new ApprovedTask(
+                            announce.getApplicationId(),
+                            "水电维修",
+                            announce.getApplicantId(),
+                            announce.getAnnounceId(),
+
+                            announce.getCreateDate()
+                    ));
+                    break;
+                //开学入住
+                case "kxrz":
+                    tasks.add(new ApprovedTask(
+                            announce.getApplicationId(),
+                            "开学入住",
+                            announce.getApplicantId(),
+                            announce.getAnnounceId(),
+
+                            announce.getCreateDate()
+                    ));
+                    break;
+                //期末离宿
+                case "qmls":
+                    tasks.add(new ApprovedTask(
+                            announce.getApplicationId(),
+                            "期末离宿",
+                            announce.getApplicantId(),
+                            announce.getAnnounceId(),
+
+                            announce.getCreateDate()
+                    ));
+                    break;
+                //退宿
+                case "tssq":
+                    tasks.add(new ApprovedTask(
+                            announce.getApplicationId(),
+                            "退宿申请",
+                            announce.getApplicantId(),
+                            announce.getAnnounceId(),
+
+                            announce.getCreateDate()
+                    ));
+                    break;
+            }
+        });
+        return tasks;
+    }
+
+
+    @Override
+    public ArrayList<NotApprovedTask> selNotApprovedTaskList(String id) {
+        List<ApplicationAnnounce> announces = announceMapper.selNotFinishTaskByAnnounceId(id);
+        ArrayList<NotApprovedTask> tasks = new ArrayList<>();
+        announces.forEach(announce -> {
+            switch (announce.getApplicationId().substring(0, 4)) {
+                case "wgsq":
+                    //晚归申请
+                    tasks.add(new NotApprovedTask(
+                            announce.getApplicationId(),
+                            "晚归申请",
+                            announce.getApplicantId(),
+                            studentDetailMapper.selectById(announce.getApplicantId()).getName(),
+                            announce.getCreateDate()));
+                    break;
+                //水电维修
+                case "sdwx":
+                    tasks.add(new NotApprovedTask(
+                            announce.getApplicationId(),
+                            "水电维修",
+                            announce.getApplicantId(),
+                            studentDetailMapper.selectById(announce.getApplicantId()) == null ?
+                                    workerDetailMapper.selectById(announce.getApplicantId()).getName() :
+                                    studentDetailMapper.selectById(announce.getApplicantId()).getName(),
+                            announce.getCreateDate()));
+                    break;
+                //开学入住
+                case "kxrz":
+                    tasks.add(new NotApprovedTask(
+                            announce.getApplicationId(),
+                            "开学入住",
+                            announce.getApplicantId(),
+                            studentDetailMapper.selectById(announce.getApplicantId()).getName(),
+                            announce.getCreateDate()));
+                    break;
+                //期末离宿
+                case "qmls":
+                    tasks.add(new NotApprovedTask(
+                            announce.getApplicationId(),
+                            "期末离宿",
+                            announce.getApplicantId(),
+                            studentDetailMapper.selectById(announce.getApplicantId()).getName(),
+                            announce.getCreateDate()));
+                    break;
+                //退宿
+                case "tssq":
+                    tasks.add(new NotApprovedTask(
+                            announce.getApplicationId(),
+                            "退宿申请",
+                            announce.getApplicantId(),
+                            studentDetailMapper.selectById(announce.getApplicantId()).getName(),
+                            announce.getCreateDate()));
+                    break;
+            }
+        });
+        return tasks;
+    }
 
 }

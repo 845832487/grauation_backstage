@@ -42,7 +42,6 @@ public class ApplicationAnnounceController {
     ApplicationTermStartCheckinServiceImpl termStartCheckinService;
 
 
-
     @GetMapping("/getTipsNum")
     public Result<?> getTipsNum(@RequestParam String id) {
         try {
@@ -52,12 +51,28 @@ public class ApplicationAnnounceController {
         }
     }
 
-    @PostMapping("/getSubmittedTaskList")
-    public Result<?> getToBeHandledTaskList(@RequestBody String id) {
-        JSONObject json = (JSONObject) JSONObject.parse(id);
+    @GetMapping("/getSubmittedTaskList")
+    public Result<?> getToBeHandledTaskList(@RequestParam String id) {
         try {
-            return ResultUtils.success(announceService.selSubmittedTaskList(json.getJSONObject("data").getString("id")));
+            return ResultUtils.success(announceService.selSubmittedTaskList(id));
         } catch (Exception e) {
+            return ResultUtils.Err(-1, e.getMessage());
+        }
+    }
+
+    @GetMapping("/getApprovedTaskList")
+    public Result<?> getApprovedTaskList(@RequestParam String id) {
+        try {
+            return ResultUtils.success(announceService.selApprovedTaskList(id));
+        } catch (Exception e) {
+            return ResultUtils.Err(-1, e.getMessage());
+        }
+    }
+    @GetMapping("/getNotApprovedTaskList")
+    public Result<?> getNotApprovedTaskList(@RequestParam String id) {
+        try {
+            return ResultUtils.success(announceService.selNotApprovedTaskList(id));
+        } catch (Exception e) {///TODO
             return ResultUtils.Err(-1, e.getMessage());
         }
     }

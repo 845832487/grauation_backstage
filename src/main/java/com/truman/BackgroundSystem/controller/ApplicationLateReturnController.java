@@ -53,9 +53,10 @@ public class ApplicationLateReturnController {
     }
 
     @GetMapping("/getAllDormKeeper")
-    public Result<?> getAllDormKeeper() {
+    public Result<?> getAllDormKeeper(@RequestParam String id) {
         try {
-            return ResultUtils.success(lateReturnService.getDormKeeperNameId());
+            System.out.println(id);
+            return ResultUtils.success(lateReturnService.getDormKeeperNameIdByStudentId(id));
         } catch (Exception e) {
             return ResultUtils.Err(-1, e.getMessage());
         }

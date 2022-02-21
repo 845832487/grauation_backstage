@@ -8,6 +8,7 @@ import com.truman.BackgroundSystem.service.IApplicationLateReturnService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -32,6 +33,13 @@ public class ApplicationLateReturnServiceImpl extends ServiceImpl<ApplicationLat
     public List<WorkerDetail> getDormKeeperNameId() {
         return workerDetailMapper.selAllDormKeeperIdName();
     }
+
+    @Override
+    public List<WorkerDetail> getDormKeeperNameIdByStudentId(String id) {
+        System.out.println(id);
+        return workerDetailMapper.selDormKeeperIdNameByStudentId(id);
+    }
+
 
     @Override
     public List<ApplicationLateReturn> selNotFinishedTaskListByApprovalId(String id) {

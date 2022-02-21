@@ -8,4 +8,9 @@
         where applicant_id = #{id}
           and finish_time is null
     </select>
+    <select id="getCheckoutById" resultType="com.truman.BackgroundSystem.entity.ApplicationCheckout">
+        select *
+        from application_checkout
+        where application_id = #{id}
+    </select>
 </mapper>

@@ -19,4 +19,6 @@ import java.util.List;
 public interface ApplicationCheckoutMapper extends BaseMapper<ApplicationCheckout> {
     ApplicationCheckout getAllNotFinishedCheckOutByApplicantId(String id);
 
+    ApplicationCheckout getCheckoutById(String id);
+
 }

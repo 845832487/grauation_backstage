@@ -19,6 +19,8 @@ public interface WorkerDetailMapper extends BaseMapper<WorkerDetail> {
 
     List<WorkerDetail> selAllDormKeeperIdName();
 
+    List<WorkerDetail> selDormKeeperIdNameByStudentId(String id);
+
     List<WorkerDetail> selAllRepairerIdName();
 
 
