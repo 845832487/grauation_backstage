@@ -68,6 +68,7 @@ public class ApplicationAnnounceController {
             return ResultUtils.Err(-1, e.getMessage());
         }
     }
+
     @GetMapping("/getNotApprovedTaskList")
     public Result<?> getNotApprovedTaskList(@RequestParam String id) {
         try {
@@ -75,5 +76,28 @@ public class ApplicationAnnounceController {
         } catch (Exception e) {///TODO
             return ResultUtils.Err(-1, e.getMessage());
         }
+
     }
+
+    @GetMapping("/submitDetail")
+    public Result<?> submitDetail(@RequestParam String id) {
+        try {
+            return ResultUtils.success(announceService.getSubmitDetail(id));
+        } catch (Exception e) {
+            return ResultUtils.Err(-1, e.getMessage());
+        }
+    }
+
+    @GetMapping("/submit")
+    public Result<?> submit(@RequestParam String applicationId) {
+        try {
+            if (announceService.submit(applicationId)) {
+                return ResultUtils.success("审批成功");
+            } else return ResultUtils.Err(-1, "修改失败");
+        } catch (Exception e) {
+            return ResultUtils.Err(-1, e.getMessage());
+        }
+    }
+
+
 }

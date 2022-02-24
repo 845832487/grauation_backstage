@@ -1,29 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.truman.BackgroundSystem.mapper.ApplicationAnnounceMapper">
+    <update id="setFinish">
+        update application_announce
+        set is_finish = true,finish_time = current_timestamp
+        where application_id = #{applicationId}
+    </update>
+
+    <update id="updAnnounce">
+        update application_announce
+        set announce_id = #{announceId}
+        where application_id = #{applicationId}
+    </update>
 
     <select id="selNumsOfNotFinishAppByAnnounceId" resultType="java.lang.Integer">
         select count(application_id)
         from application_announce
         where announce_id = #{id}
-          and is_finish = 0
+          and finish_time is null
     </select>
     <select id="selNotFinishTaskByAnnounceId" resultType="com.truman.BackgroundSystem.entity.ApplicationAnnounce">
         select *
         from application_announce
         where announce_id = #{id}
-        and is_finish is false
+        and finish_time is null
     </select>
     <select id="selNotFinishTaskByApplicantId" resultType="com.truman.BackgroundSystem.entity.ApplicationAnnounce">
         select *
         from application_announce
         where applicant_id = #{id}
-          and is_finish is false
+          and finish_time is null
     </select>
     <select id="selApprovedTaskList" resultType="com.truman.BackgroundSystem.entity.ApplicationAnnounce">
         select *
         from application_announce
-        where is_finish is true
+        where finish_time is not null
           and (applicant_id = #{id}
           or announce_id = #{id})
     </select>

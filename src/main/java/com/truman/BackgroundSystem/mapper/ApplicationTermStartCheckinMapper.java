@@ -20,4 +20,8 @@ public interface ApplicationTermStartCheckinMapper extends BaseMapper<Applicatio
     List<ApplicationTermStartCheckin> getAllNotFinishedTermStartCheckinByApplicantId(String id);
 
     List<ApplicationTermStartCheckin> getAllNotFinishedTermStartCheckinByApprovalId(String id);
+
+    ApplicationTermStartCheckin selDetailById(String id);
+
+    Boolean setTaskFinish(String applicationId);
 }

@@ -21,9 +21,12 @@ public interface ApplicationAnnounceMapper extends BaseMapper<ApplicationAnnounc
 
     List<ApplicationAnnounce> selNotFinishTaskByAnnounceId(String id);
 
+    Boolean setFinish(String applicationId);
 
     List<ApplicationAnnounce> selNotFinishTaskByApplicantId(String id);
 
     List<ApplicationAnnounce> selApprovedTaskList(String id);
+
+    Boolean updAnnounce(String applicationId, String announceId);
 
 }

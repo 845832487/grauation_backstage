@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author 冯有恒
@@ -40,10 +40,12 @@ public class ApplicationTermFinishCheckoutController {
     StudentDetailMapper studentDetailMapper;
 
     @PutMapping
-    public Result<?> addTermStartCheckin(@RequestBody ApplicationTermFinishCheckout termFinishCheckout) {
+    public Result<?> addTermFinishCheckout(@RequestBody ApplicationTermFinishCheckout termFinishCheckout) {
         try {
-            if (!studentDetailMapper.selectById(termFinishCheckout.getApplicantId()).getInOut()) {
-                return ResultUtils.Err(-1, "你已离宿，不可重复办理");
+            if (termFinishCheckoutMapper.getAllNotTermFinishCheckoutByApplicantId(termFinishCheckout.getApplicantId()) != null) {
+                return ResultUtils.Err(-1, "不可重复办理");
+            } else if (!studentDetailMapper.selectById(termFinishCheckout.getApplicantId()).getInOut()) {
+                return ResultUtils.Err(-1, "你已离宿不可再办理离宿");
             } else {
                 termFinishCheckout.setApplicationId("qmls_" + UUID.fastUUID().toString());
                 termFinishCheckoutMapper.insert(termFinishCheckout);

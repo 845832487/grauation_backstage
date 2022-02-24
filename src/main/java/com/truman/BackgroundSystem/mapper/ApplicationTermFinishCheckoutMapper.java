@@ -18,5 +18,11 @@ import java.util.List;
 @Mapper
 public interface ApplicationTermFinishCheckoutMapper extends BaseMapper<ApplicationTermFinishCheckout> {
     List<ApplicationTermFinishCheckout> getAllNotTermFinishCheckoutByApplicantId(String id);
+
     List<ApplicationTermFinishCheckout> getAllNotTermFinishCheckoutByApprovalId(String id);
+
+    ApplicationTermFinishCheckout selDetailById(String id);
+
+    Boolean setTaskFinish(String applicationId);
 }
+

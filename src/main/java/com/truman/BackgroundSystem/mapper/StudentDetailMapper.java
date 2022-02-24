@@ -21,4 +21,6 @@ public interface StudentDetailMapper extends BaseMapper<StudentDetail> {
     //管理员修改学生基础信息
     int updStudentBasicInfo(StudentDetail studentDetail);
 
+    String selNameById(String id);
+
 }

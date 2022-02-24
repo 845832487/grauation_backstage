@@ -22,4 +22,20 @@
 
 
     </select>
+    <select id="selNameById" resultType="java.lang.String">
+        select name
+        from worker_detail
+        where id = #{id}
+    </select>
+    <select id="selAllCounselorIdName" resultType="com.truman.BackgroundSystem.entity.WorkerDetail">
+        select id, name
+        from worker_detail
+        where job like '%辅导员%'
+    </select>
+    <select id="selAllDormManagerIdName" resultType="com.truman.BackgroundSystem.entity.WorkerDetail">
+        select id, name
+        from worker_detail
+        where job like '%公寓中心领导%'
+
+    </select>
 </mapper>

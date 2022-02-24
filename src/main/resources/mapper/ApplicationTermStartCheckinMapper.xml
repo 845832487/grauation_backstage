@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.truman.BackgroundSystem.mapper.ApplicationTermStartCheckinMapper">
+    <update id="setTaskFinish">
+        update application_term_start_checkin set finish_time = current_timestamp where application_id = #{applicationId}
+    </update>
 
     <select id="getAllNotFinishedTermStartCheckinByApplicantId"
             resultType="com.truman.BackgroundSystem.entity.ApplicationTermStartCheckin">
@@ -15,5 +18,10 @@
         from application_term_start_checkin
         where approval_id = #{id}
           and finish_time is null
+    </select>
+    <select id="selDetailById" resultType="com.truman.BackgroundSystem.entity.ApplicationTermStartCheckin">
+        select *
+        from application_term_start_checkin
+        where application_id = #{id}
     </select>
 </mapper>

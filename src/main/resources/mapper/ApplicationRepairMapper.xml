@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.truman.BackgroundSystem.mapper.ApplicationRepairMapper">
+    <update id="setTaskFinish">
+        update application_repair set finish_time = current_timestamp where application_id =#{applicationId}
+    </update>
 
     <select id="getAllNotFinishedRepairByApplicantId" resultType="com.truman.BackgroundSystem.entity.ApplicationRepair">
         select *
@@ -14,5 +17,10 @@
         from application_repair
         where approval_id = #{id}
           and finish_time is null
+    </select>
+    <select id="selDetailById" resultType="com.truman.BackgroundSystem.entity.ApplicationRepair">
+        select *
+        from application_repair
+        where application_id = #{id}
     </select>
 </mapper>

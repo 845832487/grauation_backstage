@@ -41,8 +41,10 @@ public class ApplicationTermStartCheckinController {
     @PutMapping
     public Result<?> addTermStartCheckin(@RequestBody ApplicationTermStartCheckin termStartCheckin) {
         try {
-            if (studentDetailMapper.selectById(termStartCheckin.getApplicantId()).getInOut()) {
-                return ResultUtils.Err(-1, "你已入住不可重复办理");
+            if (!termStartCheckinMapper.getAllNotFinishedTermStartCheckinByApplicantId(termStartCheckin.getApplicantId()).isEmpty()) {
+                return ResultUtils.Err(-1, "不可重复办理");
+            }else if (studentDetailMapper.selectById(termStartCheckin.getApplicantId()).getInOut()) {
+                return ResultUtils.Err(-1, "你已入住不可再办理入住");
             } else {
                 termStartCheckin.setApplicationId("kxrz_" + UUID.fastUUID().toString());
                 termStartCheckinMapper.insert(termStartCheckin);

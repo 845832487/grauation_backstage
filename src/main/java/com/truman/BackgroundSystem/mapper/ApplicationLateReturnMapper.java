@@ -17,8 +17,11 @@ import java.util.List;
 @Mapper
 public interface ApplicationLateReturnMapper extends BaseMapper<ApplicationLateReturn> {
 
+    Boolean setTaskFinish(String applicationId);
 
     List<ApplicationLateReturn> getAllNotFinishedLateReturnByApprovalId(String id);
 
     List<ApplicationLateReturn> getAllNotFinishedLateReturnByApplicantId(String id);
+
+    ApplicationLateReturn selDetailById(String id);
 }

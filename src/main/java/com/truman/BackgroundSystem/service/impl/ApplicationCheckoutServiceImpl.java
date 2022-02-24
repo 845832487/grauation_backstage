@@ -23,6 +23,6 @@ public class ApplicationCheckoutServiceImpl extends ServiceImpl<ApplicationCheck
 
     @Override
     public ApplicationCheckout selNotFinishedTaskListByApplicantId(String id) {
-        return applicationCheckoutMapper.getAllNotFinishedCheckOutByApplicantId(id);
+        return null;
     }
 }

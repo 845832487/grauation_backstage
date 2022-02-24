@@ -1,10 +1,7 @@
 package com.truman.BackgroundSystem.service.impl;
 
 import com.truman.BackgroundSystem.entity.*;
-import com.truman.BackgroundSystem.mapper.ApplicationAnnounceMapper;
-import com.truman.BackgroundSystem.mapper.ApplicationCheckoutMapper;
-import com.truman.BackgroundSystem.mapper.StudentDetailMapper;
-import com.truman.BackgroundSystem.mapper.WorkerDetailMapper;
+import com.truman.BackgroundSystem.mapper.*;
 import com.truman.BackgroundSystem.service.IApplicationAnnounceService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +25,25 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
     ApplicationAnnounceMapper announceMapper;
 
     @Autowired
-    ApplicationCheckoutMapper checkoutMapper;
-
-    @Autowired
     StudentDetailMapper studentDetailMapper;
 
     @Autowired
     WorkerDetailMapper workerDetailMapper;
+
+    @Autowired
+    ApplicationLateReturnMapper lateReturnMapper;
+
+    @Autowired
+    ApplicationCheckoutMapper checkoutMapper;
+
+    @Autowired
+    ApplicationRepairMapper repairMapper;
+
+    @Autowired
+    ApplicationTermStartCheckinMapper termStartCheckinMapper;
+
+    @Autowired
+    ApplicationTermFinishCheckoutMapper termFinishCheckoutMapper;
 
 
     @Override
@@ -88,7 +97,7 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
                 case "tssq":
                     System.out.println(announce);
                     SubmittedTask task = new SubmittedTask(announce.getApplicationId(), "退宿申请", null, announce.getCreateDate());
-                    ApplicationCheckout checkout = checkoutMapper.getCheckoutById(announce.getApplicationId());
+                    ApplicationCheckout checkout = checkoutMapper.selDetailById(announce.getApplicationId());
                     System.out.println(checkout);
                     if (checkout.getCounselorId() == null) {
                         task.setCondition("等待宿管审批");
@@ -228,4 +237,69 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
         return tasks;
     }
 
+    @Override
+    public Object getSubmitDetail(String id) {
+        switch (id.substring(0,4)) {
+            case "wgsq":
+                ApplicationLateReturn lateReturn = lateReturnMapper.selDetailById(id);
+                lateReturn.setApprovalId(workerDetailMapper.selNameById(lateReturn.getApprovalId()));
+                lateReturn.setApplicantId(studentDetailMapper.selNameById(lateReturn.getApplicantId()));
+                return lateReturn;
+            case "sdwx":
+                ApplicationRepair repair = repairMapper.selDetailById(id);
+                repair.setApprovalId(workerDetailMapper.selNameById(repair.getApprovalId()));
+                String studentName = studentDetailMapper.selNameById(repair.getApplicantId());
+                if (studentName==null) {
+                    repair.setApplicantId(workerDetailMapper.selNameById(repair.getApplicantId()));
+                }
+                return repair;
+            case "kxrz":
+                ApplicationTermStartCheckin startCheckin = termStartCheckinMapper.selDetailById(id);
+                System.out.println(startCheckin);
+                startCheckin.setApprovalId(workerDetailMapper.selNameById(startCheckin.getApprovalId()));
+                startCheckin.setApplicantId(studentDetailMapper.selNameById(startCheckin.getApplicantId()));
+                return startCheckin;
+            case "qmls":
+                ApplicationTermFinishCheckout finishCheckout = termFinishCheckoutMapper.selDetailById(id);
+                finishCheckout.setApprovalId(workerDetailMapper.selNameById(finishCheckout.getApprovalId()));
+                finishCheckout.setApplicantId(studentDetailMapper.selNameById(finishCheckout.getApplicantId()));
+                return finishCheckout;
+            case "tssq":
+                ApplicationCheckout checkout = checkoutMapper.selDetailById(id);
+                checkout.setApplicantId(studentDetailMapper.selNameById(checkout.getApplicantId()));
+                if (checkout.getDormmanagerId() != null) {
+                    checkout.setDormmanagerId(workerDetailMapper.selNameById(checkout.getDormmanagerId()));
+                    checkout.setCounselorId(workerDetailMapper.selNameById(checkout.getCounselorId()));
+                    checkout.setDormkeeperId(workerDetailMapper.selNameById(checkout.getDormkeeperId()));
+                } else if (checkout.getCounselorId() != null) {
+                    checkout.setCounselorId(workerDetailMapper.selNameById(checkout.getCounselorId()));
+                    checkout.setDormkeeperId(workerDetailMapper.selNameById(checkout.getDormkeeperId()));
+                }else{checkout.setDormkeeperId(workerDetailMapper.selNameById(checkout.getDormkeeperId()));}
+                return checkout;
+        }
+        return null;
+    }
+
+    public Boolean submit(String applicationId) {
+        announceMapper.setFinish(applicationId);
+        switch (applicationId.substring(0,4)) {
+            case "wgsq":
+                lateReturnMapper.setTaskFinish(applicationId);
+                return true;
+            case "sdwx":
+                repairMapper.setTaskFinish(applicationId);
+                return true;
+            case "kxrz":
+                termStartCheckinMapper.setTaskFinish(applicationId);
+                return true;
+            case "qmls":
+                termFinishCheckoutMapper.setTaskFinish(applicationId);
+                return true;
+        }
+        return false;
+    }
+
+    public Boolean updAnnounce(String applicationId, String announceId) {
+        return announceMapper.updAnnounce(applicationId, announceId);
+    }
 }

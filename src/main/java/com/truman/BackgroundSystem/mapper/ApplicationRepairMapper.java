@@ -21,4 +21,7 @@ public interface ApplicationRepairMapper extends BaseMapper<ApplicationRepair> {
 
     List<ApplicationRepair> getAllNotFinishedRepairByApprovalId(String id);
 
+    ApplicationRepair selDetailById(String id);
+
+    Boolean setTaskFinish(String applicationId);
 }

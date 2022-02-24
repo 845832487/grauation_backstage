@@ -1,5 +1,6 @@
 package com.truman.BackgroundSystem.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class ApplicationCheckout implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId
     private String applicationId;
 
     private String applicantId;
@@ -36,8 +38,10 @@ public class ApplicationCheckout implements Serializable {
 
     private String fileAddr;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime finishTime;
 
     public String getApplicationId() {

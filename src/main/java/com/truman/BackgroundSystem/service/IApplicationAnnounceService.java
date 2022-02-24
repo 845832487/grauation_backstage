@@ -28,4 +28,6 @@ public interface IApplicationAnnounceService extends IService<ApplicationAnnounc
     ArrayList<ApprovedTask> selApprovedTaskList(String id);
 
     ArrayList<NotApprovedTask> selNotApprovedTaskList(String id);
+
+    public Object getSubmitDetail(String id);
 }

@@ -19,6 +19,10 @@ import java.util.List;
 public interface ApplicationCheckoutMapper extends BaseMapper<ApplicationCheckout> {
     ApplicationCheckout getAllNotFinishedCheckOutByApplicantId(String id);
 
-    ApplicationCheckout getCheckoutById(String id);
+    ApplicationCheckout selDetailById(String id);
 
+    ApplicationCheckout selNotFinishByApplicantId(String id);
+
+    Boolean updateCounselorById(String applicationId,String counselorId);
+    Boolean updateDormManagerById(String applicationId,String dormmanagerId);
 }
