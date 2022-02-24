@@ -25,4 +25,6 @@ public interface ApplicationCheckoutMapper extends BaseMapper<ApplicationCheckou
 
     Boolean updateCounselorById(String applicationId,String counselorId);
     Boolean updateDormManagerById(String applicationId,String dormmanagerId);
+
+    Boolean setTaskFinish(String applicationId);
 }

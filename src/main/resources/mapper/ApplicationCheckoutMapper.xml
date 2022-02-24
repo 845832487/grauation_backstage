@@ -11,6 +11,9 @@
         set dormmanager_id = #{dormmanagerId}
         where application_id = #{applicationId}
     </update>
+    <update id="setTaskFinish">
+        update application_checkout set finish_time = current_timestamp where application_id = #{applicationId}
+    </update>
 
 
     <select id="getAllNotFinishedCheckOutByApplicantId" resultType="com.truman.BackgroundSystem.entity.ApplicationCheckout">

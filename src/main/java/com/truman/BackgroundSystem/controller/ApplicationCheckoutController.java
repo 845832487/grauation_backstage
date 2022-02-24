@@ -105,7 +105,12 @@ public class ApplicationCheckoutController {
 
     @GetMapping("/managerApprove")
     public Result<?> managerApprove(@RequestParam String applicationId) {
-        System.out.println(applicationId);
-        return null;
+        //做到这
+        try {
+            announceMapper.setFinish(applicationId);
+            return ResultUtils.success(checkoutMapper.setTaskFinish(applicationId));
+        } catch (Exception e) {
+            return ResultUtils.Err(-1, e.getMessage());
+        }
     }
 }
