@@ -99,5 +99,16 @@ public class ApplicationAnnounceController {
         }
     }
 
+    @GetMapping("/deny")
+    public Result<?> deny(@RequestParam String applicationId) {
+        try {
+            if (announceService.deny(applicationId)) {
+                return ResultUtils.success("审批成功");
+            } else return ResultUtils.Err(-1, "修改失败");
+        } catch (Exception e) {
+            return ResultUtils.Err(-1, e.getMessage());
+        }
+    }
+
 
 }

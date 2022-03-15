@@ -24,4 +24,6 @@ public interface ApplicationTermStartCheckinMapper extends BaseMapper<Applicatio
     ApplicationTermStartCheckin selDetailById(String id);
 
     Boolean setTaskFinish(String applicationId);
+
+
 }

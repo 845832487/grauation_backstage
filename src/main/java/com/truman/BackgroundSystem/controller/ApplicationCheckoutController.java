@@ -8,12 +8,11 @@ import com.truman.BackgroundSystem.entity.ApplicationAnnounce;
 import com.truman.BackgroundSystem.entity.ApplicationCheckout;
 import com.truman.BackgroundSystem.mapper.ApplicationAnnounceMapper;
 import com.truman.BackgroundSystem.mapper.ApplicationCheckoutMapper;
+import com.truman.BackgroundSystem.mapper.StudentDetailMapper;
 import com.truman.BackgroundSystem.mapper.WorkerDetailMapper;
 import com.truman.BackgroundSystem.service.impl.ApplicationAnnounceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 /**
  * <p>
@@ -38,6 +37,9 @@ public class ApplicationCheckoutController {
 
     @Autowired
     ApplicationAnnounceServiceImpl announceService;
+
+    @Autowired
+    StudentDetailMapper studentDetailMapper;
 
     @PutMapping("/addTask")
     public Result<?> addTask(@RequestBody ApplicationCheckout checkout) {
@@ -107,7 +109,8 @@ public class ApplicationCheckoutController {
     public Result<?> managerApprove(@RequestParam String applicationId) {
         //做到这
         try {
-            announceMapper.setFinish(applicationId);
+            announceMapper.setSuccess(applicationId);
+            studentDetailMapper.checkOut(announceMapper.selDetailById(applicationId).getApplicantId());
             return ResultUtils.success(checkoutMapper.setTaskFinish(applicationId));
         } catch (Exception e) {
             return ResultUtils.Err(-1, e.getMessage());

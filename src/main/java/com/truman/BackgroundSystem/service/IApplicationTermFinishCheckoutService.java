@@ -14,5 +14,5 @@ import java.util.List;
  * @since 2022-02-06
  */
 public interface IApplicationTermFinishCheckoutService extends IService<ApplicationTermFinishCheckout> {
-    List<ApplicationTermFinishCheckout> selNotFinishedTaskListByApplicantId(String id);
+    ApplicationTermFinishCheckout selNotFinishedTaskListByApplicantId(String id);
 }

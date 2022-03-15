@@ -15,4 +15,5 @@ public class ApprovedTask {
     private String applicantId;
     private String approvalId;
     private LocalDateTime createDate;
+    private Boolean result;
 }

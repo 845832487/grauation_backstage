@@ -61,7 +61,7 @@ public class StudentDetailController {
             studentDetailMapper.insert(student);
             userLoginMapper.insert(new UserLogin(student.getId(), null, "student"));
         } catch (Exception e) {
-            return ResultUtils.Err(-1, "请填写完整信息");
+            return ResultUtils.Err(-1, "学号不能重复");
         }
         return ResultUtils.success(student);
     }

@@ -5,6 +5,7 @@
         update application_term_start_checkin set finish_time = current_timestamp where application_id = #{applicationId}
     </update>
 
+
     <select id="getAllNotFinishedTermStartCheckinByApplicantId"
             resultType="com.truman.BackgroundSystem.entity.ApplicationTermStartCheckin">
         select *

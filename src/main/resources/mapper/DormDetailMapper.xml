@@ -2,4 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.truman.BackgroundSystem.mapper.DormDetailMapper">
 
+    <update id="updRoomLeftById">
+        update dorm_detail
+        set rooms_left = #{roomsLeft}
+        where building_id = #{buildingId}
+          and dorm_id = #{dormId}
+    </update>
+
+    <select id="selDormBuilding" resultType="java.lang.String">
+        select distinct graduation.dorm_detail.building_id
+        from graduation.dorm_detail
+    </select>
+
+    <select id="selRoomsLeftByBuildingId" resultType="java.lang.Integer">
+        select sum(rooms_left)
+        from dorm_detail
+        where building_id = #{buildingId}
+    </select>
+
+    <select id="selDormDetailByBuildingNum" resultType="com.truman.BackgroundSystem.entity.DormDetail">
+        select *
+        from dorm_detail
+        where building_id = #{buildingNum}
+        order by dorm_id
+    </select>
+
+
+
 </mapper>

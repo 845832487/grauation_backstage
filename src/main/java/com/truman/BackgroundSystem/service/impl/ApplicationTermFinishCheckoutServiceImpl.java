@@ -23,7 +23,7 @@ public class ApplicationTermFinishCheckoutServiceImpl extends ServiceImpl<Applic
     ApplicationTermFinishCheckoutMapper applicationTermFinishCheckoutMapper;
 
     @Override
-    public List<ApplicationTermFinishCheckout> selNotFinishedTaskListByApplicantId(String id) {
+    public ApplicationTermFinishCheckout selNotFinishedTaskListByApplicantId(String id) {
         return applicationTermFinishCheckoutMapper.getAllNotTermFinishCheckoutByApplicantId(id);
     }
 }

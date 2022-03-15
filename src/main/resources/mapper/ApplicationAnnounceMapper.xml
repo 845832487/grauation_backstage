@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.truman.BackgroundSystem.mapper.ApplicationAnnounceMapper">
-    <update id="setFinish">
+    <update id="setSuccess">
         update application_announce
         set is_finish = true,finish_time = current_timestamp
+        where application_id = #{applicationId}
+    </update>
+
+    <update id="setFail">
+        update application_announce
+        set is_finish = true=false,finish_time = current_timestamp
         where application_id = #{applicationId}
     </update>
 
@@ -12,6 +18,8 @@
         set announce_id = #{announceId}
         where application_id = #{applicationId}
     </update>
+
+
 
     <select id="selNumsOfNotFinishAppByAnnounceId" resultType="java.lang.Integer">
         select count(application_id)
@@ -37,5 +45,10 @@
         where finish_time is not null
           and (applicant_id = #{id}
           or announce_id = #{id})
+    </select>
+    <select id="selDetailById" resultType="com.truman.BackgroundSystem.entity.ApplicationAnnounce">
+        select *
+        from application_announce
+        where application_id = #{applicationId}
     </select>
 </mapper>

@@ -55,6 +55,7 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
     @Override
     public ArrayList<SubmittedTask> selSubmittedTaskList(String id) {
         List<ApplicationAnnounce> announces = announceMapper.selNotFinishTaskByApplicantId(id);
+        System.out.println(announces);
         ArrayList<SubmittedTask> tasks = new ArrayList<>();
         announces.forEach(announce -> {
             switch (announce.getApplicationId().substring(0, 4)) {
@@ -98,7 +99,6 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
                     System.out.println(announce);
                     SubmittedTask task = new SubmittedTask(announce.getApplicationId(), "退宿申请", null, announce.getCreateDate());
                     ApplicationCheckout checkout = checkoutMapper.selDetailById(announce.getApplicationId());
-                    System.out.println(checkout);
                     if (checkout.getCounselorId() == null) {
                         task.setCondition("等待宿管审批");
                     } else if (checkout.getDormmanagerId() == null) {
@@ -127,7 +127,7 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
                             "晚归申请",
                             announce.getApplicantId(),
                             announce.getAnnounceId(),
-                            announce.getCreateDate()));
+                            announce.getCreateDate(), announce.getIsFinish()));
                     break;
                 //水电维修
                 case "sdwx":
@@ -137,8 +137,7 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
                             announce.getApplicantId(),
                             announce.getAnnounceId(),
 
-                            announce.getCreateDate()
-                    ));
+                            announce.getCreateDate(), announce.getIsFinish()));
                     break;
                 //开学入住
                 case "kxrz":
@@ -148,8 +147,7 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
                             announce.getApplicantId(),
                             announce.getAnnounceId(),
 
-                            announce.getCreateDate()
-                    ));
+                            announce.getCreateDate(), announce.getIsFinish()));
                     break;
                 //期末离宿
                 case "qmls":
@@ -159,8 +157,7 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
                             announce.getApplicantId(),
                             announce.getAnnounceId(),
 
-                            announce.getCreateDate()
-                    ));
+                            announce.getCreateDate(), announce.getIsFinish()));
                     break;
                 //退宿
                 case "tssq":
@@ -170,8 +167,7 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
                             announce.getApplicantId(),
                             announce.getAnnounceId(),
 
-                            announce.getCreateDate()
-                    ));
+                            announce.getCreateDate(), announce.getIsFinish()));
                     break;
             }
         });
@@ -281,7 +277,29 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
     }
 
     public Boolean submit(String applicationId) {
-        announceMapper.setFinish(applicationId);
+        announceMapper.setSuccess(applicationId);
+        switch (applicationId.substring(0,4)) {
+            case "wgsq":
+                lateReturnMapper.setTaskFinish(applicationId);
+                return true;
+            case "sdwx":
+                repairMapper.setTaskFinish(applicationId);
+                return true;
+            case "kxrz":
+                termStartCheckinMapper.setTaskFinish(applicationId);
+                studentDetailMapper.checkIn(announceMapper.selDetailById(applicationId).getApplicantId());
+                return true;
+            case "qmls":
+                termFinishCheckoutMapper.setTaskFinish(applicationId);
+                studentDetailMapper.checkOut(announceMapper.selDetailById(applicationId).getApplicantId());
+                return true;
+
+        }
+        return false;
+    }
+
+    public Boolean deny(String applicationId) {
+        announceMapper.setFail(applicationId);
         switch (applicationId.substring(0,4)) {
             case "wgsq":
                 lateReturnMapper.setTaskFinish(applicationId);
@@ -294,6 +312,9 @@ public class ApplicationAnnounceServiceImpl extends ServiceImpl<ApplicationAnnou
                 return true;
             case "qmls":
                 termFinishCheckoutMapper.setTaskFinish(applicationId);
+                return true;
+            case "tssq":
+                checkoutMapper.setTaskFinish(applicationId);
                 return true;
         }
         return false;

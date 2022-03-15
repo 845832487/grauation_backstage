@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -22,5 +24,15 @@ public interface StudentDetailMapper extends BaseMapper<StudentDetail> {
     int updStudentBasicInfo(StudentDetail studentDetail);
 
     String selNameById(String id);
+
+    Boolean checkIn(String id);
+
+    Boolean checkOut(String id);
+
+    List<StudentDetail> selByDorm(String buildingNum, String dormNum);
+
+    Integer selStudentsLeftBySex(Boolean sex);
+
+    List<StudentDetail> selStudentLeftDetailBySex(Boolean sex);
 
 }
