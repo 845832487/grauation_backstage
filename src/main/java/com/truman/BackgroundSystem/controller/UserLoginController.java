@@ -47,6 +47,10 @@ public class UserLoginController {
     @Qualifier("redisTemplate")
     RedisTemplate redistemplate;
 
+    @GetMapping("/test")
+    public String test(){
+        return "DEPLOY SUCCESS!!!";
+    }
 
     /*
      * 登录验证
