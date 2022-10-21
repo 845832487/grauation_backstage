@@ -10,7 +10,7 @@ public class BackgroundSystemApplication {
 
 	@GetMapping("/deploy")
 	public String test(){
-		return "Successfully deploy spring boot to azure :)"
+		return "Successfully deploy spring boot to azure :)";
 	}
 
 	public static void main(String[] args) {
